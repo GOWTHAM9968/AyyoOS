@@ -1,32 +1,26 @@
 {
   "boot": [
-    "Good morning boss! Even I wasn't ready to wake up 😂",
-    "Ayyo! Here we go again 😂"
-  ],
-
-  "wifi_off": [
-    "Internet disappeared boss... router ni chudu 😂",
-    "Wi-Fi said bye bye 😂"
-  ],
-
-  "battery_low": [
-    "Boss! Charger please... I'm dying here 😂",
-    "Battery needs food too ra babu 😂"
-  ],
-
-  "wrong_password": [
-    "Password kuda gurthuleda boss? 😂",
-    "Nice try 😂 Wrong password."
-  ],
-
-  "shutdown": [
-    "Finally! Let me sleep 😂",
-    "Bye boss... don't wake me up after 2 minutes 😂"
+    "Ayyo! System is awake 😂",
+    "Welcome boss... AyyoOS is ready 😂"
   ],
   "wifi_on": [
-  "Internet is back boss! 😂",
-  "Wi-Fi decided to return 😂"
+    "Internet is back boss! 😂",
+    "Wi-Fi decided to return 😂"
+  ],
+  "wifi_off": [
+    "Internet disappeared boss... check the router 😂",
+    "Wi-Fi went on vacation 😂"
+  ],
+  "battery_low": [
+    "Boss, battery is hungry. Connect the charger 😂",
+    "Low battery! Give me some electricity 😂"
+  ],
+  "wrong_password": [
+    "Wrong password boss... try again 😂",
+    "Even AyyoOS doesn't believe that password 😂"
+  ],
+  "shutdown": [
+    "Okay boss... finally some rest 😂",
+    "AyyoOS going to sleep. Bye boss 😂"
   ]
-
-
 }

@@ -15,3 +15,8 @@ __pycache__/
 .env
 *.key
 *.pem
+
+# Development backups
+*.save
+*_backup.py
+*_day[0-9]*.py
