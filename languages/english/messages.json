@@ -1,0 +1,26 @@
+{
+  "boot": [
+    "Good morning boss! Even I wasn't ready to wake up 😂",
+    "Ayyo! Here we go again 😂"
+  ],
+
+  "wifi_off": [
+    "Internet disappeared boss... router ni chudu 😂",
+    "Wi-Fi said bye bye 😂"
+  ],
+
+  "battery_low": [
+    "Boss! Charger please... I'm dying here 😂",
+    "Battery needs food too ra babu 😂"
+  ],
+
+  "wrong_password": [
+    "Password kuda gurthuleda boss? 😂",
+    "Nice try 😂 Wrong password."
+  ],
+
+  "shutdown": [
+    "Finally! Let me sleep 😂",
+    "Bye boss... don't wake me up after 2 minutes 😂"
+  ]
+}

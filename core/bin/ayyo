@@ -1,0 +1,5 @@
+#!/bin/bash
+
+AYYO_ROOT="$HOME/AyyoOS"
+
+python3 "$AYYO_ROOT/comedy-engine/ayyo_engine.py" "$@"
