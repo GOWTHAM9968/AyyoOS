@@ -7,48 +7,103 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 
-SUPPORTED_LANGUAGES = {
-    "english": ROOT / "languages" / "english" / "messages.json",
-    "telugu": ROOT / "languages" / "telugu" / "messages.json",
+CONFIG = ROOT / "config" / "personality.conf"
+
+VALID_MODES = {
+    "normal",
+    "chill",
+    "funny",
+    "savage"
 }
 
-def load_messages(language):
-    path = SUPPORTED_LANGUAGES.get(language)
 
-    if path is None:
-        raise ValueError(f"Unsupported language: {language}")
+def read_config():
+    config = {
+        "mode": "funny",
+        "language": "telugu"
+    }
 
-    with path.open("r", encoding="utf-8") as file:
+    if not CONFIG.exists():
+        return config
+
+    for line in CONFIG.read_text(
+        encoding="utf-8"
+    ).splitlines():
+
+        if "=" not in line:
+            continue
+
+        key, value = line.split("=", 1)
+        config[key.strip()] = value.strip()
+
+    return config
+
+
+def load_messages(mode):
+    if mode not in VALID_MODES:
+        mode = "funny"
+
+    path = (
+        ROOT
+        / "comedy-engine"
+        / "personalities"
+        / mode
+        / "messages.json"
+    )
+
+    with path.open(
+        "r",
+        encoding="utf-8"
+    ) as file:
         return json.load(file)
 
-def get_message(event, language="telugu"):
-    messages = load_messages(language)
+
+def get_message(event):
+    config = read_config()
+
+    mode = config.get(
+        "mode",
+        "funny"
+    )
+
+    messages = load_messages(mode)
+
     choices = messages.get(event)
 
     if not choices:
-        return f"Ayyo! Event '{event}' inka ready avvaledu 😂"
+        return (
+            f"Ayyo! Event '{event}' "
+            f"inka ready avvaledu 😂"
+        )
 
     return random.choice(choices)
 
+
 def main():
+
     if len(sys.argv) < 2:
-        print("AyyoOS 😂")
-        print("Usage: ayyo <event> [language]")
+        config = read_config()
+
+        print("😂 AyyoOS")
+        print(
+            f"Personality: "
+            f"{config['mode'].upper()}"
+        )
+        print("Usage: ayyo <event>")
         return
 
     event = sys.argv[1]
-    language = sys.argv[2] if len(sys.argv) >= 3 else "telugu"
 
     try:
-        message = get_message(event, language)
-        print("\n😂 AyyoOS")
-        print("----------------------------")
-        print(message)
-        print()
+        print(get_message(event))
 
     except Exception as error:
-        print(f"AyyoOS error: {error}")
+        print(
+            f"AyyoOS error: {error}"
+        )
+
         sys.exit(1)
+
 
 if __name__ == "__main__":
     main()

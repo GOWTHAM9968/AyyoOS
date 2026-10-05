@@ -1,0 +1,24 @@
+{
+  "boot": [
+    "Morning boss 😎 AyyoOS ready.",
+    "System ready boss... chill 😎"
+  ],
+  "wifi_on": [
+    "Wi-Fi is back boss 😎",
+    "Internet vachindi... chill!"
+  ],
+  "wifi_off": [
+    "Wi-Fi konchem break teesukundi 😎",
+    "Internet missing boss... chill, check router."
+  ],
+  "battery_low": [
+    "Battery tired boss... charger pettu 😴",
+    "Konchem power ivvu boss 😎"
+  ],
+  "wrong_password": [
+    "Almost boss... password malli try chey 😎"
+  ],
+  "shutdown": [
+    "Okay boss... see you later 😴"
+  ]
+}

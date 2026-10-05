@@ -1,0 +1,20 @@
+{
+  "boot": [
+    "AyyoOS is ready."
+  ],
+  "wifi_on": [
+    "Internet connection restored."
+  ],
+  "wifi_off": [
+    "Internet connection lost."
+  ],
+  "battery_low": [
+    "Battery is low. Connect your charger."
+  ],
+  "wrong_password": [
+    "Incorrect password. Try again."
+  ],
+  "shutdown": [
+    "Shutting down AyyoOS."
+  ]
+}
