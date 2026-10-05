@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+
+# Temporary/editor files
+*~
+*.swp
+*.tmp
+
+# Secrets
+.env
+*.key
+*.pem
