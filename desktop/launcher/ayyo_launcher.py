@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from datetime import datetime
 
 import tkinter as tk
 import subprocess
@@ -22,6 +23,14 @@ LANGUAGE_MANAGER = (
 
 AYYO_SETTINGS = (
     ROOT / "apps" / "settings" / "ayyo_settings.py"
+)
+
+AYYO_SYSTEM_CENTER = (
+    ROOT / "apps" / "system-center" / "ayyo_system_center.py"
+)
+
+AYYO_QUICK_CONTROLS = (
+    ROOT / "apps" / "quick-controls" / "ayyo_quick_controls.py"
 )
 
 CONFIG = (
@@ -416,6 +425,65 @@ def search_apps(event=None):
         language_menu()
 
 
+    elif query in [
+        "system",
+        "status",
+        "system center",
+        "systemcenter",
+        "ayyo system center"
+    ]:
+
+        open_system_center()
+
+
+    elif query in [
+        "quick",
+        "controls",
+        "quick controls",
+        "quickcontrols"
+    ]:
+
+        open_quick_controls()
+
+
+    elif query in [
+        "wifi",
+        "wi-fi",
+        "network",
+        "internet settings"
+    ]:
+
+        launch(
+            [
+                "gnome-control-center",
+                "network"
+            ]
+        )
+
+        status.config(
+            text="Opening Network Settings 📡"
+        )
+
+
+    elif query in [
+        "sound",
+        "audio",
+        "volume",
+        "sound settings"
+    ]:
+
+        launch(
+            [
+                "gnome-control-center",
+                "sound"
+            ]
+        )
+
+        status.config(
+            text="Opening Sound Settings 🔊"
+        )
+
+
     else:
 
         status.config(
@@ -446,6 +514,58 @@ def open_ayyo_settings():
 
         status.config(
             text="AyyoSettings file dorakaledu boss 😂"
+        )
+
+
+# ============================================================
+# AyyoSystem Center
+# ============================================================
+
+def open_system_center():
+
+    if AYYO_SYSTEM_CENTER.exists():
+
+        launch(
+            [
+                "python3",
+                str(AYYO_SYSTEM_CENTER)
+            ]
+        )
+
+        status.config(
+            text="Opening AyyoSystem Center 🖥️"
+        )
+
+    else:
+
+        status.config(
+            text="System Center file dorakaledu boss 😂"
+        )
+
+
+# ============================================================
+# Ayyo Quick Controls
+# ============================================================
+
+def open_quick_controls():
+
+    if AYYO_QUICK_CONTROLS.exists():
+
+        launch(
+            [
+                "python3",
+                str(AYYO_QUICK_CONTROLS)
+            ]
+        )
+
+        status.config(
+            text="Opening Quick Controls ⚡"
+        )
+
+    else:
+
+        status.config(
+            text="Quick Controls file dorakaledu boss 😂"
         )
 
 
@@ -797,6 +917,34 @@ tk.Button(
 )
 
 
+# Row 4
+
+tk.Button(
+    apps,
+    text="🖥️\nSystem Center",
+    command=open_system_center,
+    **button_options
+).grid(
+    row=3,
+    column=0,
+    padx=8,
+    pady=8
+)
+
+
+tk.Button(
+    apps,
+    text="⚡\nQuick Controls",
+    command=open_quick_controls,
+    **button_options
+).grid(
+    row=3,
+    column=1,
+    padx=8,
+    pady=8
+)
+
+
 # ============================================================
 # Status
 # ============================================================
@@ -840,6 +988,65 @@ tk.Label(
     padx=20,
     pady=15
 )
+
+
+# ============================================================
+# Live AyyoOS Status
+# ============================================================
+
+live_status = tk.Label(
+    footer,
+    text="📡 Checking...   🕐 --:--",
+    font=("Sans", 10, "bold"),
+    bg="#19191f",
+    fg="white"
+)
+
+live_status.pack(
+    side="left",
+    expand=True,
+    padx=10,
+    pady=15
+)
+
+
+def update_live_status():
+
+    try:
+        result = subprocess.run(
+            ["nmcli", "-t", "-f", "STATE", "general"],
+            capture_output=True,
+            text=True,
+            timeout=2
+        )
+
+        connected = (
+            result.stdout.strip().lower()
+            == "connected"
+        )
+
+        network = (
+            "📡 Connected"
+            if connected
+            else "📡 Offline 😂"
+        )
+
+    except Exception:
+        network = "📡 Unknown"
+
+    current_time = datetime.now().strftime("%I:%M %p")
+
+    live_status.config(
+        text=f"{network}   🕐 {current_time}"
+    )
+
+    root.after(
+        5000,
+        update_live_status
+    )
+
+
+update_live_status()
 
 
 tk.Button(
