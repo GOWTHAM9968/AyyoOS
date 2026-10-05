@@ -9,7 +9,86 @@ MESSAGE=$(
     "$EVENT"
 )
 
+# ------------------------------------------------------------
+# Show desktop notification
+# ------------------------------------------------------------
+
 notify-send \
     --app-name="AyyoOS" \
     "😂 AyyoOS" \
     "$MESSAGE"
+
+
+# ------------------------------------------------------------
+# Choose notification category
+# ------------------------------------------------------------
+
+case "$EVENT" in
+
+    wifi_on|wifi_off)
+        CATEGORY="network"
+        ;;
+
+    battery_low|battery_critical)
+        CATEGORY="battery"
+        ;;
+
+    volume_up|volume_down|mute)
+        CATEGORY="audio"
+        ;;
+
+    security*)
+        CATEGORY="security"
+        ;;
+
+    update*)
+        CATEGORY="update"
+        ;;
+
+    *)
+        CATEGORY="system"
+        ;;
+
+esac
+
+
+# ------------------------------------------------------------
+# Save to Ayyo Notification Center
+# ------------------------------------------------------------
+
+python3 - \
+    "$AYYO_ROOT/system/notifications/notification_history.py" \
+    "$MESSAGE" \
+    "$CATEGORY" <<'PY'
+import importlib.util
+import sys
+from pathlib import Path
+
+module_path = Path(sys.argv[1])
+message = sys.argv[2]
+category = sys.argv[3]
+
+try:
+
+    spec = importlib.util.spec_from_file_location(
+        "notification_history",
+        module_path
+    )
+
+    module = importlib.util.module_from_spec(spec)
+
+    spec.loader.exec_module(module)
+
+    module.add_notification(
+        "AyyoOS",
+        message,
+        category
+    )
+
+except Exception as error:
+
+    print(
+        f"Ayyo notification history error: {error}",
+        file=sys.stderr
+    )
+PY

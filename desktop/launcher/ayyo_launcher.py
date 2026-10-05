@@ -33,6 +33,10 @@ AYYO_QUICK_CONTROLS = (
     ROOT / "apps" / "quick-controls" / "ayyo_quick_controls.py"
 )
 
+AYYO_NOTIFICATION_CENTER = (
+    ROOT / "apps" / "notification-center" / "ayyo_notification_center.py"
+)
+
 CONFIG = (
     ROOT / "config" / "personality.conf"
 )
@@ -437,6 +441,17 @@ def search_apps(event=None):
 
 
     elif query in [
+        "notification",
+        "notifications",
+        "notification center",
+        "alerts",
+        "alert"
+    ]:
+
+        open_notification_center()
+
+
+    elif query in [
         "quick",
         "controls",
         "quick controls",
@@ -566,6 +581,32 @@ def open_quick_controls():
 
         status.config(
             text="Quick Controls file dorakaledu boss 😂"
+        )
+
+
+# ============================================================
+# Ayyo Notification Center
+# ============================================================
+
+def open_notification_center():
+
+    if AYYO_NOTIFICATION_CENTER.exists():
+
+        launch(
+            [
+                "python3",
+                str(AYYO_NOTIFICATION_CENTER)
+            ]
+        )
+
+        status.config(
+            text="Opening Notification Center 🔔"
+        )
+
+    else:
+
+        status.config(
+            text="Notification Center file dorakaledu boss 😂"
         )
 
 
@@ -940,6 +981,22 @@ tk.Button(
 ).grid(
     row=3,
     column=1,
+    padx=8,
+    pady=8
+)
+
+
+# Row 5 - Notification Center
+
+tk.Button(
+    apps,
+    text="🔔\nNotifications",
+    command=open_notification_center,
+    **button_options
+).grid(
+    row=4,
+    column=0,
+    columnspan=2,
     padx=8,
     pady=8
 )
