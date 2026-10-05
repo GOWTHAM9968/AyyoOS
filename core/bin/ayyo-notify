@@ -1,0 +1,13 @@
+#!/bin/bash
+
+AYYO_ROOT="$HOME/AyyoOS"
+
+EVENT="${1:-boot}"
+LANGUAGE="${2:-telugu}"
+
+MESSAGE=$(python3 "$AYYO_ROOT/comedy-engine/ayyo_engine.py" "$EVENT" "$LANGUAGE" | tail -n 2 | head -n 1)
+
+notify-send \
+    --app-name="AyyoOS" \
+    "😂 AyyoOS" \
+    "$MESSAGE"
