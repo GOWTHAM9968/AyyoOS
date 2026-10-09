@@ -6,8 +6,9 @@ import random
 import getpass
 from datetime import datetime
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import Qt, QTimer, QPropertyAnimation, QEasingCurve
 from PySide6.QtGui import QPainter, QPixmap, QColor
+from PySide6.QtWidgets import QGraphicsOpacityEffect
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QFrame
@@ -161,6 +162,21 @@ QPushButton#enterButton:pressed {
             "font-size: 14px; color: #ccccdd;"
         )
         card_layout.addWidget(self.message)
+
+        # AYYO_LOCK_V04
+        self.message_effect = QGraphicsOpacityEffect(self.message)
+        self.message.setGraphicsEffect(self.message_effect)
+
+        self.message_animation = QPropertyAnimation(
+            self.message_effect, b"opacity", self
+        )
+        self.message_animation.setDuration(900)
+        self.message_animation.setStartValue(0.0)
+        self.message_animation.setEndValue(1.0)
+        self.message_animation.setEasingCurve(
+            QEasingCurve.InOutCubic
+        )
+        self.message_animation.start()
         enter = QPushButton("🔓 Enter AyyoOS")
         enter.setObjectName("enterButton")
         enter.clicked.connect(self.close)
@@ -172,14 +188,34 @@ QPushButton#enterButton:pressed {
         main.addLayout(center)
         main.addStretch()
 
-        footer = QLabel(
-            "😂 AyyoOS • Same PC, Different Vibes • Preview Mode"
+        footer_bar = QHBoxLayout()
+
+        footer_left = QLabel("😂 AyyoOS 0.4 Alpha")
+        footer_left.setStyleSheet(
+            "font-size: 12px; color: #ddddff;"
         )
-        footer.setAlignment(Qt.AlignCenter)
-        footer.setStyleSheet(
-            "font-size: 12px; color: #9999bb;"
+
+        footer_center = QLabel(
+            "Your PC Has a Personality."
         )
-        main.addWidget(footer)
+        footer_center.setAlignment(Qt.AlignCenter)
+        footer_center.setStyleSheet(
+            "font-size: 12px; color: #ddddff;"
+        )
+
+        footer_right = QLabel("🔒 Visual Preview • Esc to Exit")
+        footer_right.setAlignment(Qt.AlignRight)
+        footer_right.setStyleSheet(
+            "font-size: 12px; color: #ddddff;"
+        )
+
+        footer_bar.addWidget(footer_left)
+        footer_bar.addStretch()
+        footer_bar.addWidget(footer_center)
+        footer_bar.addStretch()
+        footer_bar.addWidget(footer_right)
+
+        main.addLayout(footer_bar)
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.update_clock)
@@ -238,7 +274,13 @@ QPushButton#enterButton:pressed {
             super().keyPressEvent(event)
 
     def change_message(self):
+        self.message_animation.stop()
+
         self.message.setText(random.choice(MESSAGES))
+
+        self.message_animation.setStartValue(0.0)
+        self.message_animation.setEndValue(1.0)
+        self.message_animation.start()
 
     def update_clock(self):
         now = datetime.now()
