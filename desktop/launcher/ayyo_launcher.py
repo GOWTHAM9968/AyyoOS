@@ -342,6 +342,23 @@ def clear_search(event=None):
         )
 
 
+def open_ayyo_lock():
+    lock_file = ROOT / "apps" / "lock-screen" / "ayyo_lock_qt.py"
+
+    if not lock_file.is_file():
+        status.config(text="AyyoLock file dorakaledu boss 😂")
+        return
+
+    try:
+        subprocess.Popen([
+            "/usr/bin/python3",
+            str(lock_file)
+        ])
+        status.config(text="Opening AyyoLock preview 🔒")
+    except Exception as error:
+        status.config(text=f"AyyoLock error: {error}")
+
+
 def search_apps(event=None):
 
     query = (
@@ -354,6 +371,10 @@ def search_apps(event=None):
 
     if not query:
 
+        return
+
+    if query in ("ayyolock", "lock", "lock screen", "lockscreen"):
+        open_ayyo_lock()
         return
 
 
@@ -996,7 +1017,20 @@ tk.Button(
 ).grid(
     row=4,
     column=0,
-    columnspan=2,
+    padx=8,
+    pady=8
+)
+
+
+# AYYO_LOCK_BUTTON_V1
+tk.Button(
+    apps,
+    text="🔒\nAyyoLock",
+    command=open_ayyo_lock,
+    **button_options
+).grid(
+    row=4,
+    column=1,
     padx=8,
     pady=8
 )
